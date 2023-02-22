@@ -1,0 +1,101 @@
+openapi: 3.1.0
+info:
+  title: Employee API
+  version: '1.0.0'
+  description: A simple CRUD API for managing employees
+
+paths:
+  /employee:
+    get:
+      summary: Get a list of all employees
+      operationId: listAllEmployeeHandler
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  employees:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Employee'
+
+    post:
+      summary: Add a new employee
+      operationId: addEmployeeHandler
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+
+  /employee/{employeeId}:
+    put:
+      summary: Update employee by ID
+      operationId: updateEmployeeHandler
+      parameters:
+        - in: path
+          name: employeeId
+          required: true
+          schema:
+            type: string
+          description: Employee ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+
+    delete:
+      summary: Delete employee by ID
+      operationId: deleteEmployeeHandler
+      parameters:
+        - in: path
+          name: employeeId
+          required: true
+          schema:
+            type: string
+          description: Employee ID
+      responses:
+        '204':
+          description: No Content
+
+components:
+  schemas:
+    Employee:
+      type: object
+      properties:
+        firstName:
+          type: string
+          minLength: 6
+          maxLength: 10
+          example: 'Lorem'
+        lastName:
+          type: string
+          minLength: 6
+          maxLength: 10
+          example: 'Ipsum'
+        email:
+          type: string
+          format: email
+        number:
+          type: string
+          example: '+94772347008'
